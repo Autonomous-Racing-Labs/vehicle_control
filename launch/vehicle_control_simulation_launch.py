@@ -62,13 +62,12 @@ def generate_launch_description():
     )
 
     #autonomous driving controller
-    gap_follower_node = Node(
-        package='gap_follow',
-        executable='gap_follower',
+    hello_world_node = Node(
+        package='hello_world',
+        executable='hello_world',
         output='screen',
-        name='gap_follower',
-        parameters=[],
-        remappings=[('/drive', '/to_drive')] #gap following publishes to vehicle_control_node
+        name='hello_world',
+        parameters=[]
     )
 
     #vehicle control - manual intervention for autonomous driving
@@ -86,7 +85,7 @@ def generate_launch_description():
         parameters=[joy_config_dict]
     )
 
-    #driver for the gamepad
+    #driver for the gamepad - NOT USED
     joy_linux_node = Node(
         package="joy_linux",
         executable="joy_linux_node",
@@ -101,7 +100,6 @@ def generate_launch_description():
     ld.add_action(map_server_node)
     ld.add_action(ego_robot_publisher)
     ld.add_action(vehicle_control_node)
-    ld.add_action(gap_follower_node)
-    #ld.add_action(joy_linux_node)
+    ld.add_action(hello_world_node)
 
     return ld
