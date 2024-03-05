@@ -53,7 +53,11 @@ def generate_launch_description():
     #driver for vesc
     vesc_launchfile = IncludeLaunchDescription(
                         PythonLaunchDescriptionSource([
-                            FindPackageShare("vesc_driver"), '/launch', '/vesc_driver_node.py'])
+                            FindPackageShare("vesc_driver"), '/launch', '/vesc_driver_node.launch.py'])
+                        )
+    vesc_odometer = IncludeLaunchDescription(
+                        PythonLaunchDescriptionSource([
+                            FindPackageShare("vesc_ackermann"), '/launch', '/vesc_to_odom_node.launch.xml'])
                         )
 
 
@@ -63,5 +67,6 @@ def generate_launch_description():
     ld.add_action(joy_linux_node)
     ld.add_action(lidar_launchfile)
     ld.add_action(vesc_launchfile)
+    ld.add_action(vesc_odometer)
 
     return ld
