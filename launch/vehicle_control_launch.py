@@ -2,7 +2,7 @@
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch_ros.substitutions import FindPackageShare
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch.substitutions import Command
 from ament_index_python.packages import get_package_share_directory
@@ -58,7 +58,7 @@ def generate_launch_description():
                         )
 
     vesc_odometer = IncludeLaunchDescription(
-                        PythonLaunchDescriptionSource([
+                        AnyLaunchDescriptionSource([
                             FindPackageShare("vesc_ackermann"), '/launch', '/vesc_to_odom_node.launch.xml'])
                         )
 
