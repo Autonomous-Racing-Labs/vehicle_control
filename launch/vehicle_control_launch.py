@@ -41,6 +41,7 @@ def generate_launch_description():
     joy_linux_node = Node(
         package="joy_linux",
         executable="joy_linux_node",
+        name="joy_linux_node",
         emulate_tty="true"
     )
 
@@ -55,10 +56,25 @@ def generate_launch_description():
                         PythonLaunchDescriptionSource([
                             FindPackageShare("vesc_driver"), '/launch', '/vesc_driver_node.launch.py'])
                         )
+
     vesc_odometer = IncludeLaunchDescription(
                         PythonLaunchDescriptionSource([
                             FindPackageShare("vesc_ackermann"), '/launch', '/vesc_to_odom_node.launch.xml'])
                         )
+
+    #ackermann driver for vesc
+    #but instead of listening to /ackermann_cmd, we want to listen to /drive for input messages
+    vesc_ackermann = Node(
+        package="vesc_ackermann",
+        executable="ackermann_to_vesc_node",
+        name="ackermann_to_vesc_node",
+        parameters=[{'speed_to_erpm_gain' : 4614.0},
+                    {'speed_to_erpm_offset': 0.0},
+                    {'steering_angle_to_servo_gain': -1.2135},
+                    {'steering_angle_to_servo_offset': 0.5304},
+                   ],
+        remappings=[('/ackermann_cmd', '/drive')]
+    )
 
 
     # finalize
@@ -68,5 +84,6 @@ def generate_launch_description():
     ld.add_action(lidar_launchfile)
     ld.add_action(vesc_launchfile)
     ld.add_action(vesc_odometer)
+    ld.add_action(vesc_ackermann)
 
     return ld
