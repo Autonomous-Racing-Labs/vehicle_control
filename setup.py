@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'vehicle_control = vehicle_control.vehicle_control:main',
+            'rgb_demo = vehicle_control.rgb_demo:main',
         ],
     },
 )
